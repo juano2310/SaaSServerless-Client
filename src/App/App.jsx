@@ -1,11 +1,12 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../css/app.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "../assets/scss/now-ui-dashboard.scss?v1.2.0";
+import "../assets/css/demo.css";
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import {authHeader, Debug, history} from '../_helpers';
 import {alertActions, userActions} from '../_actions';
 import { PrivateRouteOld } from '../_components/PrivateRoute';
-import { HomePage } from '../Containers/HomePage';
+import AdminLayout from "../Containers/Admin.jsx";
 import { LoginPage } from '../Containers/LoginPage';
 import { RegisterPage } from '../Containers/RegisterPage';
 import { InstallPage } from '../Containers/InstallPage';
@@ -146,10 +147,10 @@ class App extends React.Component {
  * */
 
     handleLogout(event) {
-        //await Auth.signOut();
+    //await Auth.signOut();
 
-        logit.log("handleLogout: event = ");
-        logit.log(event);
+    logit.log("handleLogout: event = ");
+    logit.log(event);
     logit.log("handleLogout: this.props = ");
     logit.log(this.props);
     logit.log("handleLogout: this = ");
@@ -175,81 +176,47 @@ class App extends React.Component {
 
 
         return (
-            <div className="App container">
+            <div>
                 <Router history={history}>
-                    <div className="container">
+                    <div>
                         {history.location.pathname === '/logout' && <Redirect to="/login" /> }
-                        <Navbar className="nav" collapseOnSelect expand="lg" >
-                                <NavbarBrand>
-                                    <Nav className="nav-brand">
-                                        <img className="logo" src="/images/matt-icons_package-300px.png" />
-                                        <Link to="/" > OrderNext </Link>
+                        {history.location.pathname === '/' && <Redirect to="/admin" /> }
+                        <div>
+                            {alert.message &&
+                                <div className={`alert ${alert.type}`}>{alert.message}</div>
+                            }
+                            {logit.log('calling PrivateRouteOld with authentication = ')}
+                            {logit.log(authentication)}
+                            {logit.log('history = ')}
+                            {logit.log(history)}
+                            <PrivateRouteOld path="/admin" auth={authentication} render={props => <AdminLayout {...props} />}/>
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/register" component={RegisterPage} />
+                            <Route path="/install" component={InstallPage} />
+                            <Route path="/resetpw" component={ResetPWPage} />
+                            <PrivateRouteOld exact path="/orders" auth={authentication} component={OrdersPage} />
+                            <PrivateRouteOld exact path="/order/add" auth={authentication}
+                                             render={props => <OrderPage action="Add" {...props} /> } />
+                            <PrivateRouteOld exact path="/order/edit/:id?" auth={authentication}
+                                             render={props => <OrderPage action="Edit" {...props} /> } />
 
-                                    </Nav>
-                                </NavbarBrand>
-                                <NavbarToggle/>
-                            <NavbarCollapse className="justify-content-end">
-                                <Nav >
-                                    {authentication.loggedIn
-                                        ? <Fragment>
-                                                    <NavLink exact to="/">Home</NavLink>
-                                            {isSystemAdminUser && <NavLink to="/tenants">Tenants</NavLink> }
-                                            {isTenantUser &&  <NavLink to="/products">Catalog</NavLink> }
-                                            {isTenantUser &&  <NavLink to="/orders">Orders</NavLink> }
-                                            {isAdminUser &&  <NavLink to="/users">Users</NavLink> }
-                                            <NavLink to="/logout" onClick={this.handleLogout}>Logout</NavLink>
-                                        </Fragment>
-                                        : <Fragment>
-                                                    <NavLink  to="/register" className="nav-item" >Register</NavLink>
-                                                    <NavLink to="/login" className="nav-item" >Login</NavLink>
-                                        </Fragment>
-                                    }
-                                </Nav>
-                            </NavbarCollapse>
-                        </Navbar>
-                        <div className="jumbotron">
-                            <div className="container ">
-                                <div className="col-12 ">
-                                    {alert.message &&
-                                        <div className={`alert ${alert.type}`}>{alert.message}</div>
-                                    }
-                                        <div className="justify-content-center">
-                                            {logit.log('calling PrivateRouteOld with authentication = ')}
-                                            {logit.log(authentication)}
-                                            {logit.log('history = ')}
-                                            {logit.log(history)}
+                            <PrivateRouteOld exact path="/products" auth={authentication} component={ProductsPage} />
 
-                                            <PrivateRouteOld exact path="/" auth={authentication} component={HomePage} />
-                                            <Route path="/login" component={LoginPage} />
-                                            <Route path="/register" component={RegisterPage} />
-                                            <Route path="/install" component={InstallPage} />
-                                            <Route path="/resetpw" component={ResetPWPage} />
-                                            <PrivateRouteOld exact path="/orders" auth={authentication} component={OrdersPage} />
-                                            <PrivateRouteOld exact path="/order/add" auth={authentication}
-                                                             render={props => <OrderPage action="Add" {...props} /> } />
-                                            <PrivateRouteOld exact path="/order/edit/:id?" auth={authentication}
-                                                             render={props => <OrderPage action="Edit" {...props} /> } />
-
-                                            <PrivateRouteOld exact path="/products" auth={authentication} component={ProductsPage} />
-
-                                            <PrivateRouteOld exact path="/product/add" auth={authentication}
-                                                             render={props => <ProductPage action="Add" {...props} /> } />
-                                            <PrivateRouteOld exact path="/product/view/:id?" auth={authentication}
-                                                             render={props => <ProductPage action="View" {...props} /> } />
-                                            <PrivateRouteOld exact path="/product/edit/:id?" auth={authentication}
-                                                             render={props => <ProductPage action="Edit" {...props} /> } />
-                                            <PrivateRouteOld exact path="/users" auth={authentication} component={UsersPage} />
-                                            <PrivateRouteOld exact path="/user/add" auth={authentication}
-                                                             render={props => <UserPage action="Add" {...props} /> } />
-                                            <PrivateRouteOld exact path="/user/edit/:name?" auth={authentication}
-                                                         render={props => <UserPage action="Edit" {...props} /> } />
-                                            <PrivateRouteOld exact path="/tenants" auth={authentication} component={TenantsPage} />
-                                            <PrivateRouteOld exact path="/tenant/edit/:id?" auth={authentication}
-                                                             render={props => <TenantPage action="Edit" {...props} />} />
-                                            <PrivateRouteOld exact path="/tenant/delete/:id?" auth={authentication} component={TenantsPage} />
-                                        </div>
-                                </div>
-                            </div>
+                            <PrivateRouteOld exact path="/product/add" auth={authentication}
+                                             render={props => <ProductPage action="Add" {...props} /> } />
+                            <PrivateRouteOld exact path="/product/view/:id?" auth={authentication}
+                                             render={props => <ProductPage action="View" {...props} /> } />
+                            <PrivateRouteOld exact path="/product/edit/:id?" auth={authentication}
+                                             render={props => <ProductPage action="Edit" {...props} /> } />
+                            <PrivateRouteOld exact path="/users" auth={authentication} component={UsersPage} />
+                            <PrivateRouteOld exact path="/user/add" auth={authentication}
+                                             render={props => <UserPage action="Add" {...props} /> } />
+                            <PrivateRouteOld exact path="/user/edit/:name?" auth={authentication}
+                                         render={props => <UserPage action="Edit" {...props} /> } />
+                            <PrivateRouteOld exact path="/tenants" auth={authentication} component={TenantsPage} />
+                            <PrivateRouteOld exact path="/tenant/edit/:id?" auth={authentication}
+                                             render={props => <TenantPage action="Edit" {...props} />} />
+                            <PrivateRouteOld exact path="/tenant/delete/:id?" auth={authentication} component={TenantsPage} />
                         </div>
                     </div>
                 </Router>
@@ -321,4 +288,4 @@ function mapStateToProps(state) {
 }
 
 const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as App }; 
+export { connectedApp as App };

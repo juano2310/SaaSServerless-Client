@@ -53,5 +53,4 @@ env.yml
 .idea
 
 # generated files for upload to website
-dist/outbundle.js
-dist/index.html
+dist/
