@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
-import { userActions, modalActions} from '../_actions';
+import { userActions, modalActions} from '../helpers/_actions';
 import ModalContainer from "./ModalContainer";
-import {modalConstants} from "../_constants";
-import * as Roles from "../_reducers/authentication.reducer";
+import {modalConstants} from "../helpers/_constants";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
 import { withRouter} from "react-router-dom";
 
-import DataTable from "../_components/DataTable";
+import DataTable from "../helpers/_components/DataTable";
 
-import { Debug } from "../_helpers/debug";
+import { Debug } from "../helpers/_helpers/debug";
 var logit = new Debug("UsersPage");
 
 

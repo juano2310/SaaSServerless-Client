@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
-import {orderActions, modalActions} from '../_actions';
+import {orderActions, modalActions} from '../helpers/_actions';
 import ModalContainer from "./ModalContainer";
-import {modalConstants} from "../_constants";
+import {modalConstants} from "../helpers/_constants";
 
-import DataTable from "../_components/DataTable";
+import DataTable from "../helpers/_components/DataTable";
 
-import { Debug } from "../_helpers/debug";
+import { Debug } from "../helpers/_helpers/debug";
 var logit = new Debug("OrdersPage");
 
 class OrdersPage extends React.Component {

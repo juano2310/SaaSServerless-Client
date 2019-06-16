@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {Formik, Field, Form, ErrorMessage} from 'formik';
-import { tenantMgrConstants } from '../_constants';
-import { TenantForm } from '../_components/TenantForm';
+import { tenantMgrConstants } from '../helpers/_constants';
+import { TenantForm } from '../helpers/_components/TenantForm';
 import { withRouter} from "react-router-dom";
-import { tenantMgrActions } from '../_actions';
+import { tenantMgrActions } from '../helpers/_actions';
 import {FormLabel, FormControl, FormGroup} from "react-bootstrap";
-import LoaderButton from "../_components/LoaderButton";
+import LoaderButton from "../helpers/_components/LoaderButton";
 
-import { Debug } from "../_helpers/debug";
+import { Debug } from "../helpers/_helpers/debug";
 var logit = new Debug("TenantPage");
 
 class TenantPage extends React.Component {

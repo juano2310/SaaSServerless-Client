@@ -2,14 +2,14 @@ import React, {PureComponent} from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
-import {EnableUserModal } from '../_components/EnableUserModal';
-import {DeleteItemModal } from '../_components/DeleteItemModal';
+import {EnableUserModal } from '../helpers/_components/EnableUserModal';
+import {DeleteItemModal } from '../helpers/_components/DeleteItemModal';
 
-const ConfirmLogoutModal = require('../_components/ConfirmLogoutModal');
+const ConfirmLogoutModal = require('../helpers/_components/ConfirmLogoutModal');
 
-import { Debug } from "../_helpers/debug";
-import {modalConstants} from "../_constants";
-import {modalActions} from "../_actions";
+import { Debug } from "../helpers/_helpers/debug";
+import {modalConstants} from "../helpers/_constants";
+import {modalActions} from "../helpers/_actions";
 var logit = new Debug("modalContainer");
 
 const customStyles = {

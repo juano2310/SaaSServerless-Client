@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormGroup, FormControl, FormLabel, Table } from "react-bootstrap";
-import LoaderButton from "../_components/LoaderButton";
+import LoaderButton from "../helpers/_components/LoaderButton";
 
-import { sysRegActions } from '../_actions';
-import {Debug} from "../_helpers";
+import { sysRegActions } from '../helpers/_actions';
+import {Debug} from "../helpers/_helpers";
 var logit = new Debug("UsersPage");
 
 class InstallPage extends React.Component {

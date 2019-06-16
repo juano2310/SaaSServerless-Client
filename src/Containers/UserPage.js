@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userConstants } from '../_constants';
-import { UserForm } from '../_components/UserForm';
+import { userConstants } from '../helpers/_constants';
+import { UserForm } from '../helpers/_components/UserForm';
 import { withRouter} from "react-router-dom";
-import {alertActions, userActions} from '../_actions';
+import {alertActions, userActions} from '../helpers/_actions';
 
-import { Debug } from "../_helpers/debug";
-import * as Roles from "../_reducers/authentication.reducer";
+import { Debug } from "../helpers/_helpers/debug";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
 var logit = new Debug("UserPage");
 
 class UserPage extends React.Component {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { orderConstants } from '../_constants';
-import { OrderForm } from '../_components/OrderForm';
+import { orderConstants } from '../helpers/_constants';
+import { OrderForm } from '../helpers/_components/OrderForm';
 import {Link, Redirect, withRouter} from "react-router-dom";
-import { alertActions, orderActions,productActions } from '../_actions';
+import { alertActions, orderActions,productActions } from '../helpers/_actions';
 
-import { Debug } from "../_helpers/debug";
+import { Debug } from "../helpers/_helpers/debug";
 var logit = new Debug("OrderPage");
 
 class OrderPage extends React.Component {

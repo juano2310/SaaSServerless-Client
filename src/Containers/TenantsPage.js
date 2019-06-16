@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import config from "../App/config";
 
-import {tenantMgrActions, modalActions, userActions} from '../_actions';
+import {tenantMgrActions, modalActions, userActions} from '../helpers/_actions';
 import ModalContainer from "./ModalContainer";
-import {modalConstants} from "../_constants";
+import {modalConstants} from "../helpers/_constants";
 
-import * as Roles from "../_reducers/authentication.reducer";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
 import { withRouter} from "react-router-dom";
 
-import { Debug} from "../_helpers";
-import DataTable from "../_components/DataTable";
+import { Debug} from "../helpers/_helpers";
+import DataTable from "../helpers/_components/DataTable";
 var logit = new Debug("TenantsPage");
 
 class TenantsPage extends React.Component {

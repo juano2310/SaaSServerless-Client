@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { productConstants } from '../_constants';
-import { ProductForm } from '../_components/ProductForm';
+import { productConstants } from '../helpers/_constants';
+import { ProductForm } from '../helpers/_components/ProductForm';
 import {Link, Redirect, withRouter} from "react-router-dom";
-import {alertActions, orderActions, productActions} from '../_actions';
+import {alertActions, orderActions, productActions} from '../helpers/_actions';
 
-import { Debug } from "../_helpers/debug";
+import { Debug } from "../helpers/_helpers/debug";
 var logit = new Debug("ProductPage");
 
 class ProductPage extends React.Component {

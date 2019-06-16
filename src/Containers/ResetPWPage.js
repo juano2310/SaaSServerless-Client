@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userActions } from '../_actions';
-import {Debug} from "../_helpers";
+import { userActions } from '../helpers/_actions';
+import {Debug} from "../helpers/_helpers";
 
 var logit = new Debug("UsersPage");
 

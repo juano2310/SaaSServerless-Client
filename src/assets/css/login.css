@@ -1,10 +1,40 @@
-@media all and (min-width: 480px) {
+.Main {
+    height:100vh;
+    position: relative;
+    background-image: url("https://awsinsurance.com/wp-content/uploads/2014/05/light-blue-halftone-pattern.jpg");
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.Login {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media all and (min-width: 360px) {
   .Login {
-    padding: 60px 0;
+    padding: 20px 0;
+  }
+
+  .Login h2 {
+    margin-bottom: 0px;
+  }
+
+  .Login p {
+    margin-bottom: 40px;
   }
 
   .Login form {
     margin: 0 auto;
-    max-width: 320px;
+    max-width: 500px;
+  }
+
+  .Login .right {
+      float: right;
   }
 }

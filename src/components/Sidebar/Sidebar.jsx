@@ -33,7 +33,7 @@ class Sidebar extends React.Component {
   }
   render() {
     return (
-      <div className="sidebar" data-color={this.props.backgroundColor}>
+      <div className="sidebar" data-color="orange">
         <div className="logo">
           <NavLink
             to="/admin/dashboard"
@@ -49,13 +49,14 @@ class Sidebar extends React.Component {
             className="simple-text logo-normal"
             activeClassName="active"
           >
-            Lair Eight
+            Project Charles
           </NavLink>
         </div>
         <div className="sidebar-wrapper" ref="sidebar">
           <Nav>
             {this.props.routes.map((prop, key) => {
               if (prop.redirect) return null;
+              if (prop.invisible) return null;
               return (
                 <li
                   className={

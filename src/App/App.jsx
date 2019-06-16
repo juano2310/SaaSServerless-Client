@@ -1,14 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/scss/now-ui-dashboard.scss?v1.2.0";
 import "../assets/css/demo.css";
+import "../assets/css/login.css";
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
-import {authHeader, Debug, history} from '../_helpers';
-import {alertActions, userActions} from '../_actions';
-import { PrivateRouteOld } from '../_components/PrivateRoute';
-import AdminLayout from "../Containers/Admin.jsx";
-import { LoginPage } from '../Containers/LoginPage';
-import { RegisterPage } from '../Containers/RegisterPage';
+import {authHeader, Debug, history} from '../helpers/_helpers';
+import {alertActions, userActions} from '../helpers/_actions';
+import { PrivateRouteOld } from '../helpers/_components/PrivateRoute';
+import AdminLayout from "../layouts/Admin.jsx";
+import { LoginPage } from '../views/LoginPage';
+import { RegisterPage } from '../views/RegisterPage';
 import { InstallPage } from '../Containers/InstallPage';
 import { ResetPWPage } from '../Containers/ResetPWPage';
 import { OrdersPage } from '../Containers/OrdersPage';
@@ -16,7 +17,6 @@ import { OrderPage } from '../Containers/OrderPage';
 import { ProductsPage } from '../Containers/ProductsPage';
 import { ProductPage } from '../Containers/ProductPage';
 import { UsersPage } from '../Containers/UsersPage';
-import { UserPage } from '../Containers/UserPage';
 import { TenantsPage } from '../Containers/TenantsPage';
 import {TenantPage} from "../Containers/TenantPage";
 import config from "./config";
@@ -25,7 +25,7 @@ import { API } from "aws-amplify";
 import {async } from 'async'
 
 import Modal from 'react-modal'
-import * as Roles from "../_reducers/authentication.reducer";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
 
 import { Router, Route, Redirect } from 'react-router-dom';
 import { Link, withRouter, NavLink } from "react-router-dom";
