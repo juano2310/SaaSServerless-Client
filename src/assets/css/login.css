@@ -1,19 +1,22 @@
 .Main {
     height:100vh;
     position: relative;
-    background-image: url("https://awsinsurance.com/wp-content/uploads/2014/05/light-blue-halftone-pattern.jpg");
+    background-image: url("../img/background.jpg");
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: auto;
 }
 
 .Login {
+    min-width: 360px;
+    background-color: rgba(255,255,255,.8);
     margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    max-width: 500px;
 }
 
 @media all and (min-width: 360px) {
@@ -31,7 +34,8 @@
 
   .Login form {
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 450px;
+    padding: 20px;
   }
 
   .Login .right {

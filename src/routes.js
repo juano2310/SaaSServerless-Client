@@ -5,6 +5,7 @@ import Typography from "./views/Typography.jsx";
 import TableList from "./views/TableList.jsx";
 import Maps from "./views/Maps.jsx";
 import UserPage from "./views/UserPage.jsx";
+import Users from "./views/Users.jsx";
 //import Upgrade from "views/Upgrade.jsx";
 
 
@@ -44,6 +45,14 @@ var dashRoutes = [
     component: UserPage,
     layout: "/admin",
     invisible: true
+  },
+  {
+    path: "/users",
+    name: "User Profile",
+    icon: "users_single-02",
+    component: Users,
+    layout: "/admin",
+    invisible: false
   },
   {
     path: "/extended-tables",

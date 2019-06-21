@@ -8,15 +8,16 @@ import {authHeader, Debug, history} from '../helpers/_helpers';
 import {alertActions, userActions} from '../helpers/_actions';
 import { PrivateRouteOld } from '../helpers/_components/PrivateRoute';
 import AdminLayout from "../layouts/Admin.jsx";
+import { UsersPage } from '../Containers/UsersPage';
 import { LoginPage } from '../views/LoginPage';
 import { RegisterPage } from '../views/RegisterPage';
+import { ResetPWPage } from '../views/ResetPWPage';
 import { InstallPage } from '../Containers/InstallPage';
-import { ResetPWPage } from '../Containers/ResetPWPage';
 import { OrdersPage } from '../Containers/OrdersPage';
 import { OrderPage } from '../Containers/OrderPage';
 import { ProductsPage } from '../Containers/ProductsPage';
 import { ProductPage } from '../Containers/ProductPage';
-import { UsersPage } from '../Containers/UsersPage';
+import { UserPage } from '../Containers/UserPage';
 import { TenantsPage } from '../Containers/TenantsPage';
 import {TenantPage} from "../Containers/TenantPage";
 import config from "./config";
@@ -34,6 +35,7 @@ import { Nav, Navbar, NavItem } from "react-bootstrap/lib";
 import NavbarBrand from "react-bootstrap/lib/NavbarBrand";
 import NavbarToggle from "react-bootstrap/lib/NavbarToggle";
 import NavbarCollapse from "react-bootstrap/lib/NavbarCollapse";
+
 var logit = new Debug("App");
 
 logit.log("config =");
@@ -189,11 +191,12 @@ class App extends React.Component {
                             {logit.log(authentication)}
                             {logit.log('history = ')}
                             {logit.log(history)}
-                            <PrivateRouteOld path="/admin" auth={authentication} render={props => <AdminLayout {...props} />}/>
                             <Route path="/login" component={LoginPage} />
                             <Route path="/register" component={RegisterPage} />
                             <Route path="/install" component={InstallPage} />
                             <Route path="/resetpw" component={ResetPWPage} />
+                            <PrivateRouteOld path="/admin" auth={authentication} render={props => <AdminLayout {...props} />}/>
+                            <PrivateRouteOld exact path="/users" auth={authentication} component={UsersPage} />
                             <PrivateRouteOld exact path="/orders" auth={authentication} component={OrdersPage} />
                             <PrivateRouteOld exact path="/order/add" auth={authentication}
                                              render={props => <OrderPage action="Add" {...props} /> } />
@@ -208,7 +211,6 @@ class App extends React.Component {
                                              render={props => <ProductPage action="View" {...props} /> } />
                             <PrivateRouteOld exact path="/product/edit/:id?" auth={authentication}
                                              render={props => <ProductPage action="Edit" {...props} /> } />
-                            <PrivateRouteOld exact path="/users" auth={authentication} component={UsersPage} />
                             <PrivateRouteOld exact path="/user/add" auth={authentication}
                                              render={props => <UserPage action="Add" {...props} /> } />
                             <PrivateRouteOld exact path="/user/edit/:name?" auth={authentication}

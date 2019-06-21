@@ -1,4 +1,13 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { userConstants } from '../helpers/_constants';
+import { UserForm } from '../helpers/_components/UserForm';
+import { withRouter} from "react-router-dom";
+import {alertActions, userActions} from '../helpers/_actions';
+
+import { Debug } from "../helpers/_helpers/debug";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
+var logit = new Debug("UserPage");
 
 // reactstrap components
 import {
@@ -16,8 +25,27 @@ import {
 // core components
 import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
 
-class User extends React.Component {
+class UserPage extends React.Component {
+    constructor(props) {
+        super(props);
+        logit.resetPrefix("constructor");
+        logit.debug("props =");
+        logit.debug(props);
+
+        this.state = {
+            name: props.match.params.name,
+            action: props.action,
+        };
+
+        //this.handleSubmitPage = this.handleSubmitPage.bind(this);
+        //this.props.dispatch(userActions.aUserReset());
+    }
+
   render() {
+    logit.resetPrefix("render");
+    var {aUser, isSystemUser} = this.props;
+    const {action} = this.state;
+
     return (
       <>
         <PanelHeader size="sm" />
@@ -46,7 +74,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Username</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={aUser}
                             placeholder="Username"
                             type="text"
                           />
@@ -204,4 +232,4 @@ class User extends React.Component {
   }
 }
 
-export default User;
+export default UserPage;

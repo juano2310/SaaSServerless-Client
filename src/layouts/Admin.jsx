@@ -17,7 +17,7 @@ var ps;
 
 class Dashboard extends React.Component {
   state = {
-    backgroundColor: "blue"
+    backgroundColor: "orange"
   };
   mainPanel = React.createRef();
   componentDidMount() {
