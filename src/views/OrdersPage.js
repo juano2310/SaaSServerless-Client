@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
 import {orderActions, modalActions} from '../helpers/_actions';
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../views/ModalContainer";
 import {modalConstants} from "../helpers/_constants";
 
 import DataTable from "../helpers/_components/DataTable";

@@ -6,6 +6,8 @@ import TableList from "./views/TableList.jsx";
 import Maps from "./views/Maps.jsx";
 import UserPage from "./views/UserPage.jsx";
 import Users from "./views/Users.jsx";
+import TenantPage from "./views/TenantPage.jsx";
+import TenantsPage from "./views/TenantsPage.jsx";
 //import Upgrade from "views/Upgrade.jsx";
 
 
@@ -48,11 +50,45 @@ var dashRoutes = [
   },
   {
     path: "/users",
-    name: "User Profile",
+    name: "Users",
     icon: "users_single-02",
     component: Users,
     layout: "/admin",
-    invisible: false
+    invisible: true
+  },
+  {
+    path: "/user",
+    name: "User Profile",
+    icon: "users_single-02",
+    component: UserPage,
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    path: "/tenant/edit/:id?",
+    name: "Edit Tenant",
+    icon: "users_single-02",
+    component: TenantPage,
+    layout: "/admin",
+    invisible: true,
+    action: "Edit"
+  },
+  {
+    path: "/tenant/delete/:id?",
+    name: "Delete Tenant",
+    icon: "users_single-02",
+    component: TenantPage,
+    layout: "/admin",
+    invisible: true,
+    action: "Delete"
+  },
+  {
+    path: "/tenants",
+    name: "Tenants",
+    icon: "users_single-02",
+    component: TenantsPage,
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/extended-tables",

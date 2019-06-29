@@ -2,34 +2,31 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../assets/scss/now-ui-dashboard.scss?v1.2.0";
 import "../assets/css/demo.css";
 import "../assets/css/login.css";
+import "../assets/img/favicon/favicon.ico";
+import "../assets/img/favicon/favicon-16x16.png";
+import "../assets/img/favicon/favicon-32x32.png";
+import "../assets/img/favicon/apple-touch-icon.png";
+import "../assets/img/favicon/safari-pinned-tab.svg";
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import {authHeader, Debug, history} from '../helpers/_helpers';
 import {alertActions, userActions} from '../helpers/_actions';
 import { PrivateRouteOld } from '../helpers/_components/PrivateRoute';
 import AdminLayout from "../layouts/Admin.jsx";
-import { UsersPage } from '../Containers/UsersPage';
 import { LoginPage } from '../views/LoginPage';
 import { RegisterPage } from '../views/RegisterPage';
 import { ResetPWPage } from '../views/ResetPWPage';
-import { InstallPage } from '../Containers/InstallPage';
-import { OrdersPage } from '../Containers/OrdersPage';
-import { OrderPage } from '../Containers/OrderPage';
-import { ProductsPage } from '../Containers/ProductsPage';
-import { ProductPage } from '../Containers/ProductPage';
-import { UserPage } from '../Containers/UserPage';
-import { TenantsPage } from '../Containers/TenantsPage';
-import {TenantPage} from "../Containers/TenantPage";
+import { InstallPage } from '../views/InstallPage';
 import config from "./config";
 import  Amplify  from "aws-amplify";
 import { API } from "aws-amplify";
-import {async } from 'async'
+import { async } from 'async'
 
 import Modal from 'react-modal'
 import * as Roles from "../helpers/_reducers/authentication.reducer";
 
 import { Router, Route, Redirect } from 'react-router-dom';
-import { Link, withRouter, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { Nav, Navbar, NavItem } from "react-bootstrap/lib";
 import NavbarBrand from "react-bootstrap/lib/NavbarBrand";
@@ -196,29 +193,6 @@ class App extends React.Component {
                             <Route path="/install" component={InstallPage} />
                             <Route path="/resetpw" component={ResetPWPage} />
                             <PrivateRouteOld path="/admin" auth={authentication} render={props => <AdminLayout {...props} />}/>
-                            <PrivateRouteOld exact path="/users" auth={authentication} component={UsersPage} />
-                            <PrivateRouteOld exact path="/orders" auth={authentication} component={OrdersPage} />
-                            <PrivateRouteOld exact path="/order/add" auth={authentication}
-                                             render={props => <OrderPage action="Add" {...props} /> } />
-                            <PrivateRouteOld exact path="/order/edit/:id?" auth={authentication}
-                                             render={props => <OrderPage action="Edit" {...props} /> } />
-
-                            <PrivateRouteOld exact path="/products" auth={authentication} component={ProductsPage} />
-
-                            <PrivateRouteOld exact path="/product/add" auth={authentication}
-                                             render={props => <ProductPage action="Add" {...props} /> } />
-                            <PrivateRouteOld exact path="/product/view/:id?" auth={authentication}
-                                             render={props => <ProductPage action="View" {...props} /> } />
-                            <PrivateRouteOld exact path="/product/edit/:id?" auth={authentication}
-                                             render={props => <ProductPage action="Edit" {...props} /> } />
-                            <PrivateRouteOld exact path="/user/add" auth={authentication}
-                                             render={props => <UserPage action="Add" {...props} /> } />
-                            <PrivateRouteOld exact path="/user/edit/:name?" auth={authentication}
-                                         render={props => <UserPage action="Edit" {...props} /> } />
-                            <PrivateRouteOld exact path="/tenants" auth={authentication} component={TenantsPage} />
-                            <PrivateRouteOld exact path="/tenant/edit/:id?" auth={authentication}
-                                             render={props => <TenantPage action="Edit" {...props} />} />
-                            <PrivateRouteOld exact path="/tenant/delete/:id?" auth={authentication} component={TenantsPage} />
                         </div>
                     </div>
                 </Router>

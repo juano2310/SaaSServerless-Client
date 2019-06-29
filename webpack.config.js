@@ -56,7 +56,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: 'file-loader',
                     options: {
@@ -67,9 +67,10 @@ module.exports = {
                 }]
             },
             {
-                test: /\.(png|jpg|gif)/,
-                loader: 'file-loader',
+                test: /\.(jpg|gif|svg|png|ico)$/,
+                loader: "file-loader",
                 options: {
+                    name: '[name].[ext]',
                     outputPath: '/images',
                     publicPath: '/images',
                 }

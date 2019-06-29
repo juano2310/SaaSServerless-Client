@@ -8,8 +8,14 @@ import { withRouter} from "react-router-dom";
 import { tenantMgrActions } from '../helpers/_actions';
 import {FormLabel, FormControl, FormGroup} from "react-bootstrap";
 import LoaderButton from "../helpers/_components/LoaderButton";
-
 import { Debug } from "../helpers/_helpers/debug";
+
+// reactstrap components
+import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+
+// core components
+import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
+
 var logit = new Debug("TenantPage");
 
 class TenantPage extends React.Component {
@@ -19,10 +25,14 @@ class TenantPage extends React.Component {
         logit.debug("props =");
         logit.debug(props);
 
+        const capitalize = (s) => {
+          if (typeof s !== 'string') return ''
+          return s.charAt(0).toUpperCase() + s.slice(1)
+        }
+
         this.state = {
             id: props.match.params.id,
-            action: props.action,
-           // tenant: props.aTenant.status === tenantMgrConstants.TENANT_VALID ?  props.aTenant.tenant : {},
+            action: capitalize(this.props.match.path.split("/")[3].toLowerCase()),
         };
 
         this.props.dispatch(tenantMgrActions.tenantReset());
@@ -57,14 +67,26 @@ class TenantPage extends React.Component {
         var isDataValid = aTenant ? aTenant.status === tenantMgrConstants.TENANT_VALID  : false;
 
         return (
-            <div className="col-8 offset-2">
-                <h2 className="text-center">{action} Tenent</h2>
-
-                {isDataValid ?
-                    <TenantForm values={aTenant.tenant} dispatch={this.props.dispatch}  />
-                    : <div>  Loading......</div>
-                }
+            <>
+              <PanelHeader size="sm" />
+              <div className="content">
+                <Row>
+                  <Col xs={12}>
+                  <Card>
+                    <CardBody>
+                        <div className="col-12 ">
+                            <h2>{action} Tenent</h2>
+                            {isDataValid ?
+                                <TenantForm values={aTenant.tenant} dispatch={this.props.dispatch}  />
+                                : <div>  Loading......</div>
+                            }
+                        </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
             </div>
+          </>
         );
     }
 }
@@ -77,5 +99,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedTenantPage= withRouter(connect(mapStateToProps)(TenantPage));
-export { connectedTenantPage as TenantPage };
+const connectedTenantPage = connect(mapStateToProps)(TenantPage);
+export default connectedTenantPage;

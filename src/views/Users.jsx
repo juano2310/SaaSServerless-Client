@@ -1,147 +1,207 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userConstants } from '../helpers/_constants';
-import { UserForm } from '../helpers/_components/UserForm';
-import { withRouter} from "react-router-dom";
-import { alertActions, userActions} from '../helpers/_actions';
+import ReactModal from 'react-modal';
+
+import { userActions, modalActions} from '../helpers/_actions';
+import ModalContainer from "../views/ModalContainer";
+import {modalConstants} from "../helpers/_constants";
+import * as Roles from "../helpers/_reducers/authentication.reducer";
+import DataTable from "../helpers/_components/DataTable";
 
 import { Debug } from "../helpers/_helpers/debug";
-import * as Roles from "../helpers/_reducers/authentication.reducer";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 // core components
 import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
 
-import icons from "../variables/icons";
-
 var logit = new Debug("Users");
 
-class Users extends React.Component {
+
+class UsersPage extends React.Component {
     constructor(props) {
         super(props);
         logit.resetPrefix("constructor");
-        logit.debug("props =");
-        logit.debug(props);
+        logit.debug(" props....");
+        logit.debug( props);
 
-        const lowerCaseAction = props.location.pathname.split("/")[3].toLowerCase();
-        const upperCaseAction =  lowerCaseAction.charAt(0).toUpperCase() + lowerCaseAction.slice(1)
-
-        this.state = {
-            name: "juano23@gmail.com",
-            action: upperCaseAction,
-        };
-
-        logit.debug("states =");
-        logit.debug(this.state);
-        this.handleSubmitPage = this.handleSubmitPage.bind(this);
-        this.props.dispatch(userActions.aUserReset());
+        this.props.dispatch(userActions.usersReset());
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.openDeleteModal = this.openDeleteModal.bind(this);
+        this.openEnableModal = this.openEnableModal.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
-
     componentDidMount() {
         logit.resetPrefix("componentDidMount");
-        const {dispatch } = this.props;
-        if (this.state.function === "edit") {
-            logit.debug("in edit mode. check if user needed");
-            dispatch(userActions.getUserIfNeeded(this.state.name));
-        }
+        logit.debug("dispatch getUsersIfNeeded....");
+        this.props.dispatch(userActions.getUsersIfNeeded());
     }
 
     componentDidUpdate() {
         logit.resetPrefix("componentDidUpdate");
-        const {dispatch } = this.props;
-        if (this.state.function === "edit") {
-            logit.debug("in edit mode. check if user needed");
-            dispatch(userActions.getUserIfNeeded(this.state.name));
-        }
+        logit.debug("dispatch getUsersIfNeeded....");
+        this.props.dispatch(userActions.getUsersIfNeeded());
     }
 
-    handleSubmitPage(formType, user) {
-        logit.resetPrefix("handleSubmitPage");
+    handleChange(event) {
+        const { id, value } = event.target;
+        const { tenant } = this.state;
+        logit.debug("handleChange - is this even used?????....");
+        this.setState({
+            tenant: {
+                ...tenant,
+                [id]: value
+            }
+        });
+    }
 
-        logit.debug("user info = ");
-        logit.debug(user);
+    handleSubmit(event) {
+        logit.resetPrefix("handleSubmit");
+        event.preventDefault();
+        // should not get here. no submits only links??
+        logit.debug("how did we get here???");
+       // throw new Error("UsersPage: handlesubmit: how did we get here????");
+    }
 
-        const { dispatch } = this.props;
+    enableUser(user) {
+        logit.resetPrefix("enableUser");
+        logit.debug("name = "+name);
+        // close modal
+        this.props.dispatch(modalActions.hideModal());
+        // toggle enable flag for user
+        this.props.dispatch(userActions.enable(user));
+    }
 
-        dispatch(alertActions.clear());
-        if (formType === "Edit") {
-            dispatch(userActions.updateUser(user));
-        } else {
-            dispatch(userActions.addUser(user));
+    openEnableModal (param, event) {
+        logit.resetPrefix("openEnableModal");
+        event.preventDefault();
+        const { users } = this.props;
+
+        var user = users.items.find(obj => obj.userName === param);
+
+        var showModal = (modalProps, modalType) => {
+            return this.props.dispatch(modalActions.showModal(modalProps,modalType));
         }
+        const closeModal = () => {
+            return this.props.dispatch(modalActions.hideModal());
+        }
+
+        var newStatus = user.enabled ? "Disable" : "Enable";
+
+        showModal({
+            open: true,
+            title: newStatus + ' User?',
+            message: "Are you sure you want to "+newStatus+" this user?",
+            enableAction: () => {this.enableUser(user)},
+            enableText: newStatus,
+            closeModal: closeModal,
+        }, modalConstants.ENABLE_USER);
+    }
+
+    deleteUser(name) {
+        logit.resetPrefix("deleteUser");
+        logit.debug("name = "+name);
+        // close modal
+        this.props.dispatch(modalActions.hideModal());
+        // delete user
+        this.props.dispatch(userActions.delete(name));
+    }
+
+    openDeleteModal(param, event) {
+        logit.resetPrefix("openDeleteModal");
+        event.preventDefault();
+
+        var showModal = (modalProps, modalType) => {
+            return this.props.dispatch(modalActions.showModal(modalProps,modalType));
+        }
+        const closeModal = () => {
+            return this.props.dispatch(modalActions.hideModal());
+        }
+
+        showModal({
+            open: true,
+            title: 'Delete User?',
+            message: "Are you sure you want to delete this user?",
+            deleteAction: () => {this.deleteUser(param)},
+            deleteText: 'Delete',
+            closeModal: closeModal,
+        }, modalConstants.DELETE_ITEM);
+
     }
 
     render() {
+        const { users  } = this.props;
         logit.resetPrefix("render");
-        var {aUser, isSystemUser} = this.props;
-        const {action} = this.state;
+        const openDeleteModal = this.openDeleteModal;
+        const openEnableModal = this.openEnableModal;
 
-        if (action === "Edit") {
-            var isDataValid = aUser ? aUser.status === userConstants.USER_VALID : false;
-            return (
-                <>
-                  <PanelHeader size="sm" />
-                  <div className="content">
-                      <Row>
-                        <Col md={12}>
-                          <Card>
-                            <CardHeader>
-                              <h5 className="title">{action} User</h5>
-                            </CardHeader>
-                            <CardBody>
-                              <Col className="pr-1" md="5">{isDataValid ?
-                                <UserForm values={aUser.user} formType={action}
-                                          isSystemUser={isSystemUser}
-                                          onSubmit={this.handleSubmitPage}/>
-                                : <div> Loading......</div>}
-                              </Col>
-                            </CardBody>
-                          </Card>
-                        </Col>
-                      </Row>
-                  </div>
-                </>
-            );
-        } else {
-            return (
-                <>
-                  <PanelHeader size="sm" />
-                  <div className="content">
-                      <Row>
-                        <Col md={12}>
-                          <Card>
-                            <CardHeader>
-                              <h5 className="title">{action} User</h5>
-                            </CardHeader>
-                            <CardBody>
-                              <Col className="pr-1" md="5">
-                                <UserForm values={aUser.user} formType={action}
-                                          isSystemUser={isSystemUser}
-                                          onSubmit={this.handleSubmitPage}/>
-                              </Col>
-                            </CardBody>
-                          </Card>
-                        </Col>
-                      </Row>
-                  </div>
-                </>
-            );
-        }
+        var headings = ['First Name', 'Last Name', 'User Name', 'Role', 'Active', 'Date Created'];
+        const actions = function(id) { return (
+            <div className="button-group">
+            <Link to={"/user/edit/"+id} ><i className="fas fa-edit"></i></Link>
+                <button className="btn icons" onClick={(e) => openDeleteModal(id,e)}>
+                    <i className="fas fa-trash-alt"></i></button>
+                <button className="btn icons " onClick={(e) => openEnableModal(id,e)}>
+                    <i className="fas fa-check-square"></i></button>
+        </div>)};
+
+        var rows = users.items.map((user) => {
+                return [user.firstName,
+                        user.lastName,
+                        user.userName ,
+                        Roles.roleToDisplayName(user.role),
+                        user.enabled ? 'Active' : 'Inactive',
+                        user.dateCreated,
+                        actions(user.userName)]} );
+
+        return (
+            <>
+              <PanelHeader size="sm" />
+              <div className="content">
+                <Row>
+                  <Col xs={12}>
+                  <Card>
+                    <CardBody>
+                        <div className="col-12 ">
+                            <div align="right">
+                                <Link className="btn btn-primary justify-content-end" to="/user/add">
+                                    <i className="fas fa-plus"> Add User </i>
+                                </Link>
+                            </div>
+                            <h2>Current Users</h2>
+                            {users.isLoading && <em>Loading Users...</em>}
+                            {users.error && <span className="text-danger">ERROR: {users.error.message}</span>}
+                            {users.items &&
+                                <div>
+                                    <form name="form" onSubmit={this.handleSubmit}>
+                                        <DataTable headings={headings} rows={rows}/>
+                                    </form>
+                                    <ModalContainer/>
+                                </div>
+                            }
+                        </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
+          </>
+        );
     }
 }
 
 function mapStateToProps(state, ownProps) {
+    const { users,authentication } = state;
     logit.resetPrefix("mapStateToProps");
-    const { aUser } = state;
-    logit.log("mapStateToProps");
+    logit.debug( users );
+    logit.debug( authentication );
     return {
-        aUser,
-        isSystemUser: Roles.isSystemUser(state),
+        users, authentication
     };
 }
 
-const connectedUserPage = connect(mapStateToProps)(Users);
-
-export default connect(mapStateToProps)(Users);
+const connectedUserPage = connect(mapStateToProps)(UsersPage);
+export default connectedUserPage;

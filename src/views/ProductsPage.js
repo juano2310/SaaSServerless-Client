@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
 import {productActions, modalActions} from '../helpers/_actions';
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../views/ModalContainer";
 import {modalConstants} from "../helpers/_constants";
 import * as Roles from "../helpers/_reducers/authentication.reducer";
 

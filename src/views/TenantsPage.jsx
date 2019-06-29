@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import config from "../App/config";
 
 import {tenantMgrActions, modalActions, userActions} from '../helpers/_actions';
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../views/ModalContainer";
 import {modalConstants} from "../helpers/_constants";
 
 import * as Roles from "../helpers/_reducers/authentication.reducer";
@@ -12,6 +12,13 @@ import { withRouter} from "react-router-dom";
 
 import { Debug} from "../helpers/_helpers";
 import DataTable from "../helpers/_components/DataTable";
+
+// reactstrap components
+import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+
+// core components
+import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
+
 var logit = new Debug("TenantsPage");
 
 class TenantsPage extends React.Component {
@@ -106,7 +113,7 @@ class TenantsPage extends React.Component {
         var headings = ['Company Name', 'Account Name', 'Owner', 'Plan', 'Status'];
         const actions = function(id) {
             return (isSystemAdminUser && <div className="button-group">
-                            <Link to={"/tenant/edit/"+id} ><i className="fas fa-edit"></i></Link>
+                            <Link to={"/admin/tenant/edit/"+id} ><i className="fas fa-edit"></i></Link>
                             <button className="btn icons" onClick={(e) => openDeleteModal(id,e)}>
                                 <i className="fas fa-trash-alt"></i></button>
                    </div>)};
@@ -125,19 +132,32 @@ class TenantsPage extends React.Component {
                     actions(tenant.id)]} );
 
         return (
-            <div className="col-10 offset-1">
-                <h2>Current Tenants</h2>
-                {tenants.isLoading && <em>Loading Tenants...</em>}
-                {tenants.error && <span className="text-danger">ERROR: {tenants.error.message}</span>}
-                {tenants.items &&
-                    <div>
-                        <form name="form" onSubmit={this.handleSubmit}>
-                            <DataTable headings={headings} rows={rows}/>
-                        </form>
-                        <ModalContainer/>
-                    </div>
-                }
+            <>
+              <PanelHeader size="sm" />
+              <div className="content">
+                <Row>
+                  <Col xs={12}>
+                  <Card>
+                    <CardBody>
+                        <div className="col-12 ">
+                            <h2>Current Tenants</h2>
+                            {tenants.isLoading && <em>Loading Tenants...</em>}
+                            {tenants.error && <span className="text-danger">ERROR: {tenants.error.message}</span>}
+                            {tenants.items &&
+                                <div>
+                                    <form name="form" onSubmit={this.handleSubmit}>
+                                        <DataTable headings={headings} rows={rows}/>
+                                    </form>
+                                    <ModalContainer/>
+                                </div>
+                            }
+                        </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
             </div>
+          </>
         );
     }
 }
@@ -152,5 +172,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedTenantsPage = withRouter(connect(mapStateToProps)(TenantsPage));
-export { connectedTenantsPage as TenantsPage };
+const connectedTenantsPage = connect(mapStateToProps)(TenantsPage);
+export default connectedTenantsPage;

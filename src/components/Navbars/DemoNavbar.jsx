@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { connect } from 'react-redux';
 import {
   Collapse,
   Navbar,
@@ -17,13 +18,14 @@ import {
   InputGroupAddon,
   Input
 } from "reactstrap";
-
 import routes from "../../routes.js";
+import * as Roles from "../../helpers/_reducers/authentication.reducer";
 
 class Header extends React.Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
+    dropdownAdminOpen: false,
     color: "transparent"
   };
   sidebarToggle = React.createRef();
@@ -44,6 +46,11 @@ class Header extends React.Component {
   dropdownToggle = e => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  };
+  dropdownToggleAdmin = e => {
+    this.setState({
+      dropdownOpenAdmin: !this.state.dropdownOpenAdmin
     });
   };
   getBrand = () => {
@@ -101,7 +108,9 @@ class Header extends React.Component {
     }
   }
   render() {
+    const { alert, authentication, isSystemAdminUser, isAdminUser, isTenantUser, } = this.props;
     return (
+      //const { alert, authentication, isSystemAdminUser, isAdminUser, isTenantUser, } = this.props;
       // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
         color={
@@ -153,12 +162,25 @@ class Header extends React.Component {
                 </InputGroupAddon>
               </InputGroup>
             </form>
+            {(isSystemAdminUser || isTenantUser || isAdminUser) && 
             <Nav navbar>
-              <Dropdown
-                nav
-                isOpen={this.state.dropdownOpen}
-                toggle={e => this.dropdownToggle(e)}
-              >
+              <Dropdown nav isOpen={this.state.dropdownOpenAdmin} toggle={e => this.dropdownToggleAdmin(e)} >
+                <DropdownToggle caret nav>
+                  <i className="now-ui-icons business_badge" />
+                  <p>
+                    <span className="d-lg-none d-md-block">System</span>
+                  </p>
+                </DropdownToggle>
+                <DropdownMenu right>
+                  {isSystemAdminUser && <NavLink to="/admin/tenants"><DropdownItem tag="a" href="/admin/tenants">Tenants</DropdownItem></NavLink> }
+                  {isTenantUser && <NavLink to="/admin/products"><DropdownItem tag="a" href="/admin/products">Catalog</DropdownItem></NavLink> }
+                  {isTenantUser && <NavLink to="/admin/orders"><DropdownItem tag="a" href="/admin/orders">Orders</DropdownItem></NavLink> }
+                  {isAdminUser &&  <NavLink to="/admin/users"><DropdownItem tag="a" href="/admin/users">Users</DropdownItem></NavLink> }
+                </DropdownMenu>
+              </Dropdown>
+            </Nav>}
+            <Nav navbar>
+              <Dropdown nav isOpen={this.state.dropdownOpen}  toggle={e => this.dropdownToggle(e)}>
                 <DropdownToggle caret nav>
                   <i className="now-ui-icons users_single-02" />
                   <p>
@@ -166,7 +188,7 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a" href="/admin/userpage">User Profile</DropdownItem>
+                  <NavLink to="/admin/user"><DropdownItem tag="a" href="/admin/user">User Profile</DropdownItem></NavLink>
                   <DropdownItem tag="a" href="/logout">Logout</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -178,4 +200,15 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+function mapStateToProps(state) {
+    const { alert, authentication } = state;
+     return {
+        alert, authentication,
+        isSystemAdminUser: Roles.isSystemAdminUser(state),
+        isAdminUser: Roles.isAdminUser(state),
+        isTenantUser: Roles.isTenantUser(state),
+    };
+}
+
+const connectedApp = connect(mapStateToProps)(Header);
+export default connectedApp;
