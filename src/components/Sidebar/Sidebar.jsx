@@ -60,8 +60,8 @@ class Sidebar extends React.Component {
               return (
                 <li
                   className={
-                    this.activeRoute(prop.layout + prop.path) +
-                    (prop.pro ? " active active-pro" : "")
+                    (prop.main ? "" : this.activeRoute(prop.layout + prop.path)) +
+                    (prop.pro ? " active active-pro" : "") + (prop.main ? " active-main" : "")
                   }
                   key={key}
                 >
@@ -73,6 +73,7 @@ class Sidebar extends React.Component {
                     <i className={"now-ui-icons " + prop.icon} />
                     <p>{prop.name}</p>
                   </NavLink>
+                  {(prop.main ? <div class="divider"></div> : "")}
                 </li>
               );
             })}

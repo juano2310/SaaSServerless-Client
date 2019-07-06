@@ -54,3 +54,28 @@
     opacity: 1;
     color: #FFFFFF;
 }
+
+.sidebar .nav > li.active-main{
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.sidebar .nav > li.active-main a, .sidebar .nav > li.active-main .active{
+    background: #ffbc50;
+    opacity: 1;
+    color: #ffffff;
+}
+
+.divider {
+    height: 1px;
+    position: relative;
+    margin-bottom: 20px;
+    right: 15px;
+    left: 15px;
+    margin-top: 20px;
+    width: calc(100% - 30px);
+    background-color: rgba(255, 255, 255, 0.5);
+    display: block;
+}

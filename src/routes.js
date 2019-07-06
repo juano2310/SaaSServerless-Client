@@ -13,6 +13,14 @@ import TenantsPage from "./views/TenantsPage.jsx";
 
 var dashRoutes = [
   {
+    main: true,
+    path: "/meeting",
+    name: "Start Meeting",
+    icon: "location_world",
+    component: Dashboard,
+    layout: "/admin"
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     icon: "design_app",
@@ -101,6 +109,14 @@ var dashRoutes = [
     path: "/typography",
     name: "Typography",
     icon: "design-2_ruler-pencil",
+    component: Typography,
+    layout: "/admin"
+  },
+  {
+    pro: true,
+    path: "/invite",
+    name: "Invite a friend",
+    icon: "users_single-02",
     component: Typography,
     layout: "/admin"
   }

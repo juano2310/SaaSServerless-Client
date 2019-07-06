@@ -2803,7 +2803,7 @@ Created using IcoMoon - icomoon.io
       -ms-transform: translate3d(0px, 0, 0);
       transform: translate3d(0px, 0, 0); }
     .sidebar .logo:after,
-    .off-canvas-sidebar .logo:after {
+    .off-canvas-sidebar .logo:after, .divider {
       content: '';
       position: absolute;
       bottom: 0;
